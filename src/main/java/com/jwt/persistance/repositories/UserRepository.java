@@ -1,7 +1,7 @@
 /**
  * 
  */
-package persistance.repositories;
+package com.jwt.persistance.repositories;
 
 /**
  * 
