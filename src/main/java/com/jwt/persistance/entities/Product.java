@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Category {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +17,10 @@ public class Category {
 
     private String name;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) // save string status
     private Status status;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 }
