@@ -21,7 +21,7 @@ public class SaveProductDTO implements Serializable {
     @DecimalMin(value = "0.01", message = "Price must be greater than 0!")
     private BigDecimal price;
 
-    // id de la categoria ingresada debe ser mayor o igual 1
+    // id de la category >= 1
     @Min(value = 1, message = "Category cannot be null!")
     private Long categoryId;
 }
