@@ -3,7 +3,8 @@ package com.jwt.persistance.entities.util;
 import java.util.Arrays;
 import java.util.List;
 
-public enum Role {
+public enum Role
+{
     ADMIN(Arrays.asList(
             Permission.READ_ALL_PRODUCTS,
             Permission.READ_ONE_PRODUCT,

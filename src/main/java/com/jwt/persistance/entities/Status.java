@@ -1,6 +1,7 @@
 package com.jwt.persistance.entities;
 
-public enum Status {
+public enum Status
+{
     ENABLED,
     DISABLED
 }
