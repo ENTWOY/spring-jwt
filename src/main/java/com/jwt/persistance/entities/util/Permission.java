@@ -1,6 +1,7 @@
 package com.jwt.persistance.entities.util;
 
-public enum Permission {
+public enum Permission
+{
     READ_ALL_PRODUCTS,
     READ_ONE_PRODUCT,
     CREATE_ONE_PRODUCT,

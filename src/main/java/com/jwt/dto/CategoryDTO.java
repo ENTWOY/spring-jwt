@@ -11,8 +11,8 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryDTO implements Serializable {
-
+public class CategoryDTO implements Serializable
+{
     @NotBlank
     private String name;
     private Status status;

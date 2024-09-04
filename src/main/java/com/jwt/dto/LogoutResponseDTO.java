@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LogoutResponseDTO implements Serializable {
-
+public class LogoutResponseDTO implements Serializable
+{
     private String message;
 }
