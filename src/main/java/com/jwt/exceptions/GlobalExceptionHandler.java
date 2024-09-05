@@ -2,6 +2,7 @@ package com.jwt.exceptions;
 
 import com.jwt.dto.exceptions.ApiError;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -38,7 +39,7 @@ public class GlobalExceptionHandler {
         apiError.setMessage("Error en la petición enviada: " +
                 // obtiene los mensajes de error de validacion, en una lista
                 exception.getAllErrors().stream()
-                        .map(error -> error.getDefaultMessage())
+                        .map(DefaultMessageSourceResolvable::getDefaultMessage)
                         .toList());
 //                        .toList().get(0));
         apiError.setUrl(request.getRequestURL().toString());
