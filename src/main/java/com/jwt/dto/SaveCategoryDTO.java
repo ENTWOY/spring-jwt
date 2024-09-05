@@ -10,8 +10,8 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaveCategoryDTO implements Serializable {
-
+public class SaveCategoryDTO implements Serializable
+{
     @NotBlank(message = "Category name cannot be blank!")
     private String name;
 }

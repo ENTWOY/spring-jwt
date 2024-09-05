@@ -13,8 +13,8 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaveProductDTO implements Serializable {
-
+public class SaveProductDTO implements Serializable
+{
     @NotBlank(message = "Name cannot be blank!")
     private String name;
 

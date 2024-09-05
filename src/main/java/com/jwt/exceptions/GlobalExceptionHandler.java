@@ -10,16 +10,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
-import java.util.stream.Collectors;
 
 // mapea y controla excepciones
 @RestControllerAdvice
-public class GlobalExceptionHandler {
-
+public class GlobalExceptionHandler
+{
     // metodo para manejar error genericos que ocurran en peticiones
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handlerGenericException(Exception exception, HttpServletRequest request) {
-
+    public ResponseEntity<?> handlerGenericException(Exception exception, HttpServletRequest request)
+    {
         ApiError apiError = new ApiError();
         apiError.setBackendMessage(exception.getLocalizedMessage());
         apiError.setMessage("Ha ocurrido un error al procesar la petición. Vuelva a intentarlo.");
@@ -31,17 +30,16 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handlerMethodArgumentNotValidException(MethodArgumentNotValidException exception, HttpServletRequest request) {
-
+    public ResponseEntity<?> handlerMethodArgumentNotValidException(MethodArgumentNotValidException exception, HttpServletRequest request)
+    {
         ApiError apiError = new ApiError();
         apiError.setBackendMessage(exception.getLocalizedMessage());
-        // concatena los mensajes de error de validacion que puedan existir
+
         apiError.setMessage("Error en la petición enviada: " +
-                // obtiene los mensajes de error de validacion, en una lista
                 exception.getAllErrors().stream()
                         .map(DefaultMessageSourceResolvable::getDefaultMessage)
                         .toList());
-//                        .toList().get(0));
+
         apiError.setUrl(request.getRequestURL().toString());
         apiError.setMethod(request.getMethod());
         apiError.setTimestamp(LocalDateTime.now());

@@ -11,8 +11,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class JwtToken {
-
+public class JwtToken
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
