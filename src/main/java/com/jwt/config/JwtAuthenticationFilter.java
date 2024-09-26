@@ -31,9 +31,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
     private final JwtTokenRepository jwtTokenRepository;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException
-    {
-        // 1. Get authorization header y extraer el token
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        // 1. Obtener authorization header y extraer el token
+
         String jwt = jwtService.extractJwtFromRequest(request);
 
         if (jwt == null || !StringUtils.hasText(jwt)) {
@@ -48,8 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
         boolean isValid = validateToken(jwtToken); // validamos que el token obtenido sea valido
 
         // si el token no es valido, contuamos con la cadena de filtros
-        if (!isValid)
-        {
+        if (!isValid) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -73,34 +73,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
         // 5. Ejecutar resto de filtros
         filterChain.doFilter(request, response);
     }
-    private boolean validateToken(Optional<JwtToken> jwtTokenOpt)
-    {
-        if (!jwtTokenOpt.isPresent())
-        {
+
+    private boolean validateToken(Optional<JwtToken> jwtTokenOpt) {
+
+        if (!jwtTokenOpt.isPresent()) {
             System.out.println("Metodo 'validateToken' dice: Token no existe o no fue generado.");
             return false;
         }
 
         JwtToken jwtToken = jwtTokenOpt.get();
 
-        // get fecha actual del sistema para validar la expiracion del token
+        // obtenemo fecha actual del sistema para validar la expiracion del token
         Date currentDate = new Date(System.currentTimeMillis());
 
-        // check si token es valido
+        // verifica si token es valido
         // si la fecha de expiracion del token es posterior a la fecha actual, significa que el token aun es valido
         boolean isValid = jwtToken.isValid() && jwtToken.getExpirationDate().after(currentDate);
 
         // realiza la invalidacion del token (lo setea a false)
-        if (!isValid)
-        {
+        if (!isValid) {
             updateTokenStatus(jwtToken);
         }
 
         return isValid;
     }
 
-    private void updateTokenStatus(JwtToken jwtToken)
-    {
+    private void updateTokenStatus(JwtToken jwtToken) {
         jwtToken.setValid(false); // hace que el token sea invalido
         jwtTokenRepository.save(jwtToken); // guarda en DB los cambios realizados al token
     }

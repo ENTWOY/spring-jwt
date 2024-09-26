@@ -18,8 +18,8 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class JwtService
-{
+public class JwtService {
+
     // constante que contiene la cantidad de minutos de duracion del token
     @Value("${security.jwt.expiration_in_minutes}")
     private Long EXPIRATION_IN_MINUTES;
@@ -27,8 +27,9 @@ public class JwtService
     // clave secreta con la cual se firma el token
     @Value("${security.jwt.secret_key}")
     private String SECRET_KEY;
-    public String generateToken(UserDetails user, Map<String, Object> extraClaims)
-    {
+
+    public String generateToken(UserDetails user, Map<String, Object> extraClaims) {
+
         Date issuedAt = new Date(System.currentTimeMillis()); // fecha actual del sistema
         Date expirationDate = new Date((EXPIRATION_IN_MINUTES * 60 * 1000) + issuedAt.getTime());
 
@@ -51,10 +52,9 @@ public class JwtService
         return jwt;
     }
 
-    private Key generateKey()
-    {
+    private Key generateKey() {
         // arreglo de bytes que contiene la clave secreta
-        // byte[] keyBytes = SECRET_KEY.getBytes();
+//        byte[] keyBytes = SECRET_KEY.getBytes();
 
         // esto lo ocupamos cuando tenemos una clave que fue codificada en base 64
         byte[] decodedKey = Decoders.BASE64.decode(SECRET_KEY);
@@ -63,14 +63,12 @@ public class JwtService
         return Keys.hmacShaKeyFor(decodedKey);
     }
 
-    public String extractUsername(String jwt)
-    {
+    public String extractUsername(String jwt) {
         // extrae todos los claims del token, y luego se obtiene el claim "subject" que contiene el username
         return extractAllClaims(jwt).getSubject();
     }
 
-    private Claims extractAllClaims(String jwt)
-    {
+    private Claims extractAllClaims(String jwt) {
         return Jwts.parserBuilder()
                 // establece la clave de firma para verificar la autenticidad del token
                 .setSigningKey(generateKey())
@@ -80,8 +78,9 @@ public class JwtService
                 .getBody();
     }
 
-    public String extractJwtFromRequest(HttpServletRequest request)
-    {
+
+    public String extractJwtFromRequest(HttpServletRequest request) {
+
         // 1. Obtener encabezado http "Authorization", que es quien contiene el token en el request
         String authorizationHeader = request.getHeader("Authorization");
 
@@ -97,8 +96,7 @@ public class JwtService
         return authorizationHeader.split(" ")[1];
     }
 
-    public Date extractExpirationDate(String jwt)
-    {
+    public Date extractExpirationDate(String jwt) {
         return extractAllClaims(jwt).getExpiration();
     }
 }
